@@ -53,19 +53,17 @@ SC_MODULE(Initiator)
       tlm::tlm_command cmd = tlm::TLM_WRITE_COMMAND; 
       //prepare 4 bytes (uint8_t)
       
-      for (int a = 0; a < 64; a++) {
-      y_n.write(a);
-        for (int k = 0; k < 3; k++) {
-          index = a*2-k+1;
-          if (index < 0) {
-            o_n.write(0);
-          } else {
-            o_n.write(x_input_signal[index]);
-            // cout << x_input_signal[index] << endl;
-          }
+      for (int k = 0; k < 3; k++) {
+        
+        index = a*2-k+1;
+        if (index < 0) {
+          data[k] = 0;
+        } else {
+          data[k] = x_input_signal[index];
+          // cout << x_input_signal[index] << endl;
+        }
       }
-      wait();
-      }
+      data[3] = 0
 
       // Prepare payload
       trans->set_command( cmd );
@@ -119,8 +117,8 @@ SC_MODULE(Initiator)
   }
 
   // Internal data buffer used by initiator with generic payload
-  uint8_t data[4];
-  uint32_t result;
+  sc_fixed<4, 4> data[4];
+  sc_fixed<16, 16> result;
 };
 
 #endif

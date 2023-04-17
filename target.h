@@ -63,7 +63,7 @@ SC_MODULE(Adder)
         //Copy 4 bytes from ptr
         for (unsigned int i = 0; i < len; i++) i_data[i] = ptr[i];
         //Compute summation with lower two uint8_t integers
-        sum=i_data[0]+i_data[1];
+        sum = i_data[0]*(1.0/6.0) + i_data[1]*(1.0/3.0) + i_data[2]*(1.0/2.0);
         delay=sc_time(10, SC_NS);
       }
       else{
@@ -75,8 +75,8 @@ SC_MODULE(Adder)
     trans.set_response_status( tlm::TLM_OK_RESPONSE );
   }
 
-  uint8_t i_data[SIZE];
-  sc_int<32> sum;
+  sc_fixed<4, 4> i_data[4];
+  sc_fixed<16, 16> sum;
 };
 
 #endif
